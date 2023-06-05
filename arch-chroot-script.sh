@@ -25,5 +25,11 @@ echo "$HOSTNAME" >> "/etc/hostname"
 sed -i "s/base/base udev/g" "/etc/mkinitcpio.conf"
 sed -i "s/block/keyboard keymap block encrypt lvm2/g" "/etc/mkinitcpio.conf"
 
+mkinitcpio -p
+
+mkdir -p /boot/EFI/GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+
+grub-mkconfig -o /boot/grub/grub.cfg
 
 exit
