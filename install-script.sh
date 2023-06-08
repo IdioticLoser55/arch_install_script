@@ -1,19 +1,24 @@
 #!/bin/sh
 
 DRIVE_PATH="/dev/sdc"
-BOOT_PARTITION_PATH="${DRIVE_PATH}1"
-ROOT_PARTITION_PATH="${DRIVE_PATH}2"
+BOOT_PATH="${DRIVE_PATH}1"
+CRYPT_PATH="${DRIVE_PATH}2"
 
 CRYPT_MAPPING="cryptlvm2"
 CRYPT_MAPPING_PATH="/dev/mapper/${CRYPT_MAPPING}"
 
 VOLUME_GROUP="MyVolGroup2"
 VOLUME_GROUP_PATH="/dev/${VOLUME_GROUP}"
+SWAP_PATH="${VOLUME_GROUP_PATH}/swap"
+ROOT_PATH="${VOLUME_GROUP_PATH}/root"
+HOME_PATH="${VOLUME_GROUP_PATH}/${USER_LOGIN}"
+DEV_PATH="${VOLUME_GROUP_PATH}/dev"
 
 SWAP_PERCENTAGE_OF_MEMORY=100
 MEMORY=$(awk '/MemTotal/{print $2}' /proc/meminfo)
 SWAP=$(($MEMORY*$SWAP_PERCENTAGE_OF_MEMORY))
 SWAP=$(($SWAP/100))
+
 ROOT_PERCENTAGE=30
 HOME_PERCENTAGE=10
 DEV_PERCENTAGE=1
@@ -41,13 +46,16 @@ PASSPHRASE="dumber"
 #    echo
 #done
 
+HOME_PATH="${VOLUME_GROUP_PATH}/${USER_LOGIN}"
+
 parted -sf "$DRIVE_PATH" mklabel gpt
 parted -sf "$DRIVE_PATH" mkpart esp fat32 0GB 1GB
 parted -sf "$DRIVE_PATH" mkpart cryptlvm 1GB 100%
 
+CRYPT_UUID=$(blkid ${CRYPT_PATH} | awk -F \" '//{print $2}')
 
-printf "$PASSPHRASE" | cryptsetup luksFormat "$ROOT_PARTITION_PATH"
-printf "$PASSPHRASE" | cryptsetup open "$ROOT_PARTITION_PATH" "$CRYPT_MAPPING"
+printf "$PASSPHRASE" | cryptsetup luksFormat "$CRYPT_PATH"
+printf "$PASSPHRASE" | cryptsetup open "$CRYPT_PATH" "$CRYPT_MAPPING"
 
 pvcreate "$CRYPT_MAPPING_PATH"
 vgcreate "$VOLUME_GROUP" "$CRYPT_MAPPING_PATH"
@@ -57,18 +65,18 @@ lvcreate -l "${ROOT_PERCENTAGE}%VG" "$VOLUME_GROUP" -n root
 lvcreate -l "${HOME_PERCENTAGE}%VG" "$VOLUME_GROUP" -n "$USER_LOGIN"
 lvcreate -l "${DEV_PERCENTAGE}%VG" "$VOLUME_GROUP" -n dev
 
-mkfs.ext4 "${VOLUME_GROUP_PATH}/root"
-mkfs.ext4 "${VOLUME_GROUP_PATH}/${USER_LOGIN}"
-mkfs.ext4 "${VOLUME_GROUP_PATH}/dev"
-mkswap "${VOLUME_GROUP_PATH}/swap"
+mkfs.ext4 "$ROOT_PATH"
+mkfs.ext4 "$HOME_PATH"
+mkfs.ext4 "$DEV_PATH"
+mkswap "$SWAP_PATH"
 
-mount "${VOLUME_GROUP_PATH}/root" /mnt
-mount --mkdir "${VOLUME_GROUP_PATH}/${USER_LOGIN}" "/mnt/home/${USER_LOGIN}"
-mount --mkdir "${VOLUME_GROUP_PATH}/dev" "/mnt/home/${USER_LOGIN}/dev"
-swapon "${VOLUME_GROUP_PATH}/swap"
+mount "$ROOT_PATH" /mnt
+mount --mkdir "$HOME_PATH" "/mnt/home/${USER_LOGIN}"
+mount --mkdir "$DEV_PATH" "/mnt/home/${USER_LOGIN}/dev"
+swapon "$SWAP_PATH"
 
-mkfs.fat -F 32 "$BOOT_PARTITION_PATH"
-mount --mkdir "$BOOT_PARTITION_PATH" /mnt/boot
+mkfs.fat -F 32 "$BOOT_PATH"
+mount --mkdir "$BOOT_PATH" /mnt/boot
 
 pacstrap -K /mnt base linux linux-firmware $INSTALL_PACKAGES
 
@@ -78,6 +86,16 @@ mkdir /mnt/scripts
 cp ./arch-chroot-script.sh /mnt/scripts
 chmod +x /mnt/scripts/arch-chroot-script.sh
 
-#arch-chroot /mnt .//mnt/scripts/arch-chroot-script.sh
+#echo "export USER_LOGIN=\"${USER_LOGIN}\"" >> /mnt/scripts/variables
+#echo "export LVM_UUID=\"${LVM_UUID}\"" >> /mnt/scripts/variables
+#echo "export SWAP_PATH=\"${SWAP_PATH}\"" >> /mnt/scripts/variables
+#echo "export ROOT_PATH=\"${ROOT_PATH}\"" >> /mnt/scripts/variables
+
+arch-chroot /mnt /bin/bash -- << EOCHROOT 
+    
+    USER_LOGIN="${USER_LOGIN}" CRYPT_UUID="${CRYPT_UUID}" SWAP_PATH="${SWAP_PATH}" ROOT_PATH="${ROOT_PATH}" /scripts/arch-chroot-script.sh
+
+EOCHROOT
+
 
 #sudo swapoff /dev/MyVolGroup2/swap && sudo fuser -km /mnt && sudo umount -R /mnt && sudo vgchange -a n MyVolGroup2 && sudo cryptsetup close cryptlvm2
