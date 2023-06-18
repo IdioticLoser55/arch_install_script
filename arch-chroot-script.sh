@@ -70,6 +70,10 @@ echo "Font=Noto Sans,11,-1,5,50,0,0,0,0,0"      >> "/etc/sddm.conf.d/kde_setting
 
 systemctl enable sddm.service
 
+mkdir -p "/home/${USER_LOGIN}/.config"
+echo "[Layout]"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
+echo "LayoutList=gb"    >> "/home/${USER_LOGIN}/.config/kxkbrc"
+echo "Use=true"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
 
 
 ## Need a way to get it to run ufw config on first boot.
