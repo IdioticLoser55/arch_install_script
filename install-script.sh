@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DRIVE_PATH="/dev/sdc"
+DRIVE_PATH="/dev/sda"
 BOOT_PATH="${DRIVE_PATH}1"
 CRYPT_PATH="${DRIVE_PATH}2"
 
@@ -23,14 +23,31 @@ ROOT_PERCENTAGE=30
 HOME_PERCENTAGE=10
 DEV_PERCENTAGE=1
 
-INSTALL_PACKAGES="neovim man man-db man-pages texinfo networkmanager sudo lvm2 ntfs-3g make grub efibootmgr amd-ucode os-prober"
+INSTALL_PACKAGES="neovim man man-db man-pages texinfo networkmanager make sudo lvm2 grub efibootmgr amd-ucode os-prober ntfs-3g ufw xorg xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils plasma kde-applications sddm noto-fonts"
 
 USER_LOGIN="dumb"
+USER_PASSWORD="dumb"
 PASSPHRASE="dumber"
 
 #IFS= read -r -p 'Please enter your user login: ' USER_LOGIN
 #
-#IFS= read -r -s -p 'Please enter your passphrase: ' PASSPHRASE
+#IFS= read -r -s -p 'Please enter your password: ' USER_PASSWORD
+#echo 
+#IFS= read -r -s -p 'Please verify your password: ' VERIFY
+#echo
+#
+#while [[ "$USER_PASSWORD" != "$VERIFY" ]]
+#do
+#    echo
+#    echo "Password does not match. Please try again."
+#
+#    IFS= read -r -s -p 'Please enter your password: ' USER_PASSWORD
+#    echo 
+#    IFS= read -r -s -p 'Please verify your password: ' VERIFY
+#    echo
+#done
+#
+#IFS= read -r -s -p 'Please enter your drive passphrase: ' PASSPHRASE
 #echo 
 #IFS= read -r -s -p 'Please verify your passphrase: ' VERIFY
 #echo
@@ -40,7 +57,7 @@ PASSPHRASE="dumber"
 #    echo
 #    echo "Passphrase does not match. Please try again."
 #
-#    IFS= read -r -s -p 'Please enter your passphrase: ' PASSPHRASE
+#    IFS= read -r -s -p 'Please enter your drive passphrase: ' PASSPHRASE
 #    echo 
 #    IFS= read -r -s -p 'Please verify your passphrase: ' VERIFY
 #    echo
@@ -86,14 +103,9 @@ mkdir /mnt/scripts
 cp ./arch-chroot-script.sh /mnt/scripts
 chmod +x /mnt/scripts/arch-chroot-script.sh
 
-#echo "export USER_LOGIN=\"${USER_LOGIN}\"" >> /mnt/scripts/variables
-#echo "export LVM_UUID=\"${LVM_UUID}\"" >> /mnt/scripts/variables
-#echo "export SWAP_PATH=\"${SWAP_PATH}\"" >> /mnt/scripts/variables
-#echo "export ROOT_PATH=\"${ROOT_PATH}\"" >> /mnt/scripts/variables
-
 arch-chroot /mnt /bin/bash -- << EOCHROOT 
     
-    USER_LOGIN="${USER_LOGIN}" CRYPT_UUID="${CRYPT_UUID}" SWAP_PATH="${SWAP_PATH}" ROOT_PATH="${ROOT_PATH}" /scripts/arch-chroot-script.sh
+    USER_LOGIN="${USER_LOGIN}" USER_PASSWORD="${USER_PASSWORD}" CRYPT_UUID="${CRYPT_UUID}" SWAP_PATH="${SWAP_PATH}" ROOT_PATH="${ROOT_PATH}" /scripts/arch-chroot-script.sh
 
 EOCHROOT
 
