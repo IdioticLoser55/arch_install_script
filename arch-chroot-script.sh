@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo ""
+echo "ARCH_CHROOT_SCRIPT"
+echo ""
+
 TIMEDATECTL_LOCAL_RTC=1
 TIME_ZONE_INFO="Europe/London"
 
@@ -11,6 +15,10 @@ HOSTNAME="IdiotsLaptop23"
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Syu
 
+# Apparently these are required by a lot of things. Need them to be installed first or it asks to pick and fails.
+INSTALL_PACKAGES="jack pipewire-jack wireplumber noto-fonts"
+pacman -S $ISNTALL_PACKAGES
+
 INSTALL_PACKAGES="ntfs-3g ufw xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils sddm firefox"
 pacman -S $INSTALL_PACKAGES
 
@@ -19,7 +27,7 @@ INSTALL_PACKAGES="xorg"
 pacman -S --noconfirm $INSTALL_PACKAGES
 
 # have to make choices for plasma group.
-INSTALL_PACKAGES="plasma pipewire-jack wireplumber noto-fonts phonon-qt5-vlc"
+INSTALL_PACKAGES="plasma phonon-qt5-vlc"
 pacman -S --noconfirm $INSTALL_PACKAGES
 
 # have to make choices for kde-applications group.

@@ -27,39 +27,43 @@ INSTALL_PACKAGES="neovim man man-db man-pages texinfo networkmanager make sudo l
 
 loadkeys uk
 
-IFS= read -r -p 'Please enter your user login: ' USER_LOGIN
+USER_LOGIN="dumb"
+USER_PASSWORD="dumb"
+PASSPHRASE="dumber"
 
-IFS= read -r -s -p 'Please enter your password: ' USER_PASSWORD
-echo 
-IFS= read -r -s -p 'Please verify your password: ' VERIFY
-echo
-
-while [[ "$USER_PASSWORD" != "$VERIFY" ]]
-do
-    echo
-    echo "Password does not match. Please try again."
-
-    IFS= read -r -s -p 'Please enter your password: ' USER_PASSWORD
-    echo 
-    IFS= read -r -s -p 'Please verify your password: ' VERIFY
-    echo
-done
-
-IFS= read -r -s -p 'Please enter your drive passphrase: ' PASSPHRASE
-echo 
-IFS= read -r -s -p 'Please verify your passphrase: ' VERIFY
-echo
-
-while [[ "$PASSPHRASE" != "$VERIFY" ]]
-do
-    echo
-    echo "Passphrase does not match. Please try again."
-
-    IFS= read -r -s -p 'Please enter your drive passphrase: ' PASSPHRASE
-    echo 
-    IFS= read -r -s -p 'Please verify your passphrase: ' VERIFY
-    echo
-done
+#IFS= read -r -p 'Please enter your user login: ' USER_LOGIN
+#
+#IFS= read -r -s -p 'Please enter your password: ' USER_PASSWORD
+#echo 
+#IFS= read -r -s -p 'Please verify your password: ' VERIFY
+#echo
+#
+#while [[ "$USER_PASSWORD" != "$VERIFY" ]]
+#do
+#    echo
+#    echo "Password does not match. Please try again."
+#
+#    IFS= read -r -s -p 'Please enter your password: ' USER_PASSWORD
+#    echo 
+#    IFS= read -r -s -p 'Please verify your password: ' VERIFY
+#    echo
+#done
+#
+#IFS= read -r -s -p 'Please enter your drive passphrase: ' PASSPHRASE
+#echo 
+#IFS= read -r -s -p 'Please verify your passphrase: ' VERIFY
+#echo
+#
+#while [[ "$PASSPHRASE" != "$VERIFY" ]]
+#do
+#    echo
+#    echo "Passphrase does not match. Please try again."
+#
+#    IFS= read -r -s -p 'Please enter your drive passphrase: ' PASSPHRASE
+#    echo 
+#    IFS= read -r -s -p 'Please verify your passphrase: ' VERIFY
+#    echo
+#done
 
 HOME_PATH="${VOLUME_GROUP_PATH}/${USER_LOGIN}"
 
