@@ -8,9 +8,11 @@ LANG="en_GB.UTF-8"
 KEYMAP="uk"
 HOSTNAME="IdiotsLaptop23"
 
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+pacman -Syu
+
 INSTALL_PACKAGES="ntfs-3g ufw xorg xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils plasma kde-applications sddm noto-fonts firefox"
 
-sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -S $INSTALL_PACKAGES
 
 ln -sf "/usr/share/zoninfo/${TIME_ZONE_INFO}" "/etc/localtime"
