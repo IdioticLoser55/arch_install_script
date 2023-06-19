@@ -15,24 +15,39 @@ HOSTNAME="IdiotsLaptop23"
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Syu
 
+echo ""
+echo "PACMAN"
+echo ""
 # Apparently these are required by a lot of things. Need them to be installed first or it asks to pick and fails.
-INSTALL_PACKAGES="jack pipewire-jack wireplumber noto-fonts"
-pacman -S $ISNTALL_PACKAGES
+INSTALL_PACKAGES="pipewire-jack wireplumber noto-fonts"
+pacman -S --needed --noconfirm $INSTALL_PACKAGES
 
+echo ""
+echo "PACMAN"
+echo ""
 INSTALL_PACKAGES="ntfs-3g ufw xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils sddm firefox"
-pacman -S $INSTALL_PACKAGES
+pacman -S --needed --noconfirm $INSTALL_PACKAGES
 
+echo ""
+echo "PACMAN"
+echo ""
 # have to confirm xorg group.
 INSTALL_PACKAGES="xorg"
-pacman -S --noconfirm $INSTALL_PACKAGES
+pacman -S --needed --noconfirm $INSTALL_PACKAGES
 
+echo ""
+echo "PACMAN"
+echo ""
 # have to make choices for plasma group.
 INSTALL_PACKAGES="plasma phonon-qt5-vlc"
-pacman -S --noconfirm $INSTALL_PACKAGES
+pacman -S --needed --noconfirm $INSTALL_PACKAGES
 
+echo ""
+echo "PACMAN"
+echo ""
 # have to make choices for kde-applications group.
 INSTALL_PACKAGES="kde-applications python-pyqt5 fcron tesseract-data-eng"
-pacman -S --noconfirm $INSTALL_PACKAGES
+pacman -S --needed --noconfirm $INSTALL_PACKAGES
 
 
 ln -sf "/usr/share/zoninfo/${TIME_ZONE_INFO}" "/etc/localtime"
@@ -57,7 +72,6 @@ mkinitcpio -P
 mkdir -p /boot/EFI/GRUB
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 
-echo "s/GRUB_CMDLINE_LINUX_DEFAULT=\"/GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=UUID=\"${CRYPT_UUID}\":cryptlvm:allow-discards root=${ROOT_PATH//\//\\/} swap=${SWAP_PATH//\//\\/} /g"
 sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"/GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=UUID=\"${CRYPT_UUID}\":cryptlvm:allow-discards root=${ROOT_PATH//\//\\/} swap=${SWAP_PATH//\//\\/} /g" "/etc/default/grub"
 sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" "/etc/default/grub"
 sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" "/etc/default/grub"
