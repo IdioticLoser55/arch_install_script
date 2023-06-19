@@ -11,14 +11,18 @@ HOSTNAME="IdiotsLaptop23"
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Syu
 
-INSTALL_PACKAGES="ntfs-3g ufw xorg xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils sddm firefox"
+INSTALL_PACKAGES="ntfs-3g ufw xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils sddm firefox"
 pacman -S $INSTALL_PACKAGES
 
-# have to make choices for plasma.
+# have to confirm xorg group.
+INSTALL_PACKAGES="xorg"
+pacman -S --noconfirm $INSTALL_PACKAGES
+
+# have to make choices for plasma group.
 INSTALL_PACKAGES="plasma pipewire-jack wireplumber noto-fonts phonon-qt5-vlc"
 pacman -S --noconfirm $INSTALL_PACKAGES
 
-# have to make choices for kde-applications
+# have to make choices for kde-applications group.
 INSTALL_PACKAGES="kde-applications python-pyqt5 fcron tesseract-data-eng"
 pacman -S --noconfirm $INSTALL_PACKAGES
 
