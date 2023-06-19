@@ -8,7 +8,7 @@ LANG="en_GB.UTF-8"
 KEYMAP="uk"
 HOSTNAME="IdiotsLaptop23"
 
-INSTALL_PACKAGES="ntfs-3g ufw xorg xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils plasma kde-applications sddm noto-fonts"
+INSTALL_PACKAGES="ntfs-3g ufw xorg xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils plasma kde-applications sddm noto-fonts firefox"
 
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -S $INSTALL_PACKAGES
@@ -75,6 +75,7 @@ echo "[Layout]"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
 echo "LayoutList=gb"    >> "/home/${USER_LOGIN}/.config/kxkbrc"
 echo "Use=true"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
 
+systemctl enable fstrim.timer
 
 ## Need a way to get it to run ufw config on first boot.
 

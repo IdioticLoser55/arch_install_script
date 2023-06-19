@@ -19,11 +19,11 @@ MEMORY=$(awk '/MemTotal/{print $2}' /proc/meminfo)
 SWAP=$(($MEMORY*$SWAP_PERCENTAGE_OF_MEMORY))
 SWAP=$(($SWAP/100))
 
-ROOT_PERCENTAGE=30
-HOME_PERCENTAGE=10
+ROOT_PERCENTAGE=50
+HOME_PERCENTAGE=5
 DEV_PERCENTAGE=1
 
-INSTALL_PACKAGES="neovim man man-db man-pages texinfo networkmanager make sudo lvm2 grub efibootmgr amd-ucode os-prober ntfs-3g ufw xorg xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils plasma kde-applications sddm noto-fonts"
+INSTALL_PACKAGES="neovim man man-db man-pages texinfo networkmanager make sudo lvm2 grub efibootmgr amd-ucode os-prober"
 
 USER_LOGIN="dumb"
 USER_PASSWORD="dumb"
