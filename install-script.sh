@@ -21,7 +21,7 @@ SWAP=$(($SWAP/100))
 
 ROOT_PERCENTAGE=30
 HOME_PERCENTAGE=30
-DEV_PERCENTAGE=10
+DEV_PERCENTAGE=05
 
 INSTALL_PACKAGES="neovim man man-db man-pages texinfo networkmanager make sudo lvm2 grub efibootmgr amd-ucode os-prober"
 
@@ -74,7 +74,6 @@ parted -sf "$DRIVE_PATH" mkpart cryptlvm 1GB 100%
 printf "$PASSPHRASE" | cryptsetup luksFormat "$CRYPT_PATH"
 printf "$PASSPHRASE" | cryptsetup open "$CRYPT_PATH" "$CRYPT_MAPPING"
 
-#CRYPT_UUID=$(blkid ${CRYPT_PATH} | awk -F \" '//{print $2}')
 CRYPT_UUID=$(blkid -s UUID -o value ${CRYPT_PATH})
 echo ""
 echo "CRYPT_UUID=$CRYPT_UUID"
