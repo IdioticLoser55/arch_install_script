@@ -14,3 +14,5 @@
 - Comment the scripts.
 - htop, nvtop
 - Figure out how to swap pipewire-media-session with wireplumber without breaking pulseaudio
+- Implement ufw.
+- Need to break everything that isn't essential out into a separate script to be run on boot.

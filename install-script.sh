@@ -105,12 +105,12 @@ pacstrap -K /mnt base linux linux-firmware $INSTALL_PACKAGES
 genfstab -U /mnt >> /mnt/etc/fstab
 
 mkdir /mnt/scripts
-cp ./arch-chroot-script.sh /mnt/scripts
-chmod +x /mnt/scripts/arch-chroot-script.sh
+cp ./chroot-script.sh /mnt/scripts
+chmod +x /mnt/scripts/chroot-script.sh
 
 arch-chroot /mnt /bin/bash -- << EOCHROOT 
     
-    USER_LOGIN="${USER_LOGIN}" USER_PASSWORD="${USER_PASSWORD}" CRYPT_UUID="${CRYPT_UUID}" SWAP_PATH="${SWAP_PATH}" ROOT_PATH="${ROOT_PATH}" /scripts/arch-chroot-script.sh
+    USER_LOGIN="${USER_LOGIN}" USER_PASSWORD="${USER_PASSWORD}" CRYPT_UUID="${CRYPT_UUID}" SWAP_PATH="${SWAP_PATH}" ROOT_PATH="${ROOT_PATH}" /scripts/chroot-script.sh
 
 EOCHROOT
 
