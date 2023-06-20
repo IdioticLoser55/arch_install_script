@@ -19,7 +19,8 @@ echo ""
 echo "PACMAN"
 echo ""
 # Apparently these are required by a lot of things. Need them to be installed first or it asks to pick and fails.
-INSTALL_PACKAGES="pipewire-jack wireplumber noto-fonts"
+# Need to find a way to replace pipewire-media-session with wireplumber that doesn't break pulseaudio.
+INSTALL_PACKAGES="pipewire-jack pipewire-media-session noto-fonts"
 pacman -S --needed --noconfirm $INSTALL_PACKAGES
 
 echo ""

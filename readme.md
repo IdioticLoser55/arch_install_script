@@ -13,3 +13,4 @@
 - Optimus Manager
 - Comment the scripts.
 - htop, nvtop
+- Figure out how to swap pipewire-media-session with wireplumber without breaking pulseaudio
