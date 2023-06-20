@@ -79,15 +79,6 @@ sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" "/etc/de
 grub-mkconfig -o /boot/grub/grub.cfg
 
 
-echo "root:$USER_PASSWORD" | chpasswd
-
-groupadd sudoers
-echo "%sudoers ALL=(ALL:ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)
-
-useradd -d "/home/${USER_LOGIN}" -M -G sudoers $USER_LOGIN
-chown -R "${USER_LOGIN}:${USER_LOGIN}" "/home/${USER_LOGIN}"
-echo "${USER_LOGIN}:${USER_PASSWORD}" | chpasswd
-
 mkdir "/etc/sddm.conf.d"
 echo "[Autologin]"                              >> "/etc/sddm.conf.d/kde_settings.conf"
 echo "relogin=true"                             >> "/etc/sddm.conf.d/kde_settings.conf"
@@ -110,6 +101,15 @@ mkdir -p "/home/${USER_LOGIN}/.config"
 echo "[Layout]"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
 echo "LayoutList=gb"    >> "/home/${USER_LOGIN}/.config/kxkbrc"
 echo "Use=true"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
+
+echo "root:$USER_PASSWORD" | chpasswd
+
+groupadd sudoers
+echo "%sudoers ALL=(ALL:ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)
+
+useradd -d "/home/${USER_LOGIN}" -M -G sudoers $USER_LOGIN
+chown -R "${USER_LOGIN}:${USER_LOGIN}" "/home/${USER_LOGIN}" 	# Needs to be done after all writes to home directory.
+echo "${USER_LOGIN}:${USER_PASSWORD}" | chpasswd
 
 systemctl enable fstrim.timer
 
