@@ -1,6 +1,36 @@
 # IMPORTANT
 - Make sure you point it at the right drive.
 
+
+# Install Script
+To be run on the iso and starts the process off.
+
+- Creates partitions, crypt volume, lvm and pacstrap.
+- Copies scripts.
+- Calls chroot script.
+
+# Chroot Script
+Called by the install script to be run within the chroot environment.
+
+- configures and builds bootloader.
+- creates user.
+- configures Setup to run on first boot.
+
+# Setup Script
+To be run on first boot. Handles setup and configuration. 
+
+- Things seem a bit flakey if done from within the chroot environment.
+
+- Tidies up scripts after done.
+- Prompts a reboot.
+
+
+
+
+
+
+
+
 # Things to work on
 - Make the user a KDE admin.
 - Add a prompt to check that the right drive is selected. 
