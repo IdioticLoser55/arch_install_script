@@ -71,10 +71,14 @@ parted -sf "$DRIVE_PATH" mklabel gpt
 parted -sf "$DRIVE_PATH" mkpart esp fat32 0GB 1GB
 parted -sf "$DRIVE_PATH" mkpart cryptlvm 1GB 100%
 
-CRYPT_UUID=$(blkid ${CRYPT_PATH} | awk -F \" '//{print $2}')
-
 printf "$PASSPHRASE" | cryptsetup luksFormat "$CRYPT_PATH"
 printf "$PASSPHRASE" | cryptsetup open "$CRYPT_PATH" "$CRYPT_MAPPING"
+
+#CRYPT_UUID=$(blkid ${CRYPT_PATH} | awk -F \" '//{print $2}')
+CRYPT_UUID=$(blkid -s UUID -o value ${CRYPT_PATH})
+echo ""
+echo "CRYPT_UUID=$CRYPT_UUID"
+echo ""
 
 pvcreate "$CRYPT_MAPPING_PATH"
 vgcreate "$VOLUME_GROUP" "$CRYPT_MAPPING_PATH"
