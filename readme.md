@@ -46,3 +46,4 @@ To be run on first boot. Handles setup and configuration.
 - Figure out how to swap pipewire-media-session with wireplumber without breaking pulseaudio
 - Implement ufw.
 - Need to break everything that isn't essential out into a separate script to be run on boot.
+- Don't forget to download the hardware acceleration libraries.
