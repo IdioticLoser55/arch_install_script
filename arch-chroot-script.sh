@@ -25,7 +25,7 @@ pacman -S --needed --noconfirm $INSTALL_PACKAGES
 echo ""
 echo "PACMAN"
 echo ""
-INSTALL_PACKAGES="ntfs-3g ufw xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils sddm firefox"
+INSTALL_PACKAGES="ntfs-3g ufw xf86-video-amdgpu mesa lib32-mesa nvidia nvidia-utils lib32-nvidia-utils sddm firefox git"
 pacman -S --needed --noconfirm $INSTALL_PACKAGES
 
 echo ""
@@ -81,18 +81,18 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 mkdir "/etc/sddm.conf.d"
 echo "[Autologin]"                              >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "relogin=true"                             >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "session=plasma"                           >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "user=idiot"                               >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "Relogin=true"                             >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "Session=plasma"                           >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "User=idiot"                               >> "/etc/sddm.conf.d/kde_settings.conf"
 echo ""                                         >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "[general]"                                >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "haltcommand=/usr/bin/systemctl poweroff"  >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "numlock=on"                               >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "rebootcommand=/usr/bin/systemctl reboot"  >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "[General]"                                >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "Haltcommand=/usr/bin/systemctl poweroff"  >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "Numlock=on"                               >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "Rebootcommand=/usr/bin/systemctl reboot"  >> "/etc/sddm.conf.d/kde_settings.conf"
 echo ""                                         >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "[theme]"                                  >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "current=breeze"                           >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "cursortheme=breeze_cursors"               >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "[Theme]"                                  >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "Current=breeze"                           >> "/etc/sddm.conf.d/kde_settings.conf"
+echo "Cursortheme=breeze_cursors"               >> "/etc/sddm.conf.d/kde_settings.conf"
 echo "Font=Noto Sans,11,-1,5,50,0,0,0,0,0"      >> "/etc/sddm.conf.d/kde_settings.conf"
 
 systemctl enable sddm.service
@@ -101,6 +101,9 @@ mkdir -p "/home/${USER_LOGIN}/.config"
 echo "[Layout]"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
 echo "LayoutList=gb"    >> "/home/${USER_LOGIN}/.config/kxkbrc"
 echo "Use=true"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
+
+echo "[Keyboard]"	>> "/home/${USER_LOGIN}/.config/kcminputrc"
+echo "NumLock=0"	>> "/home/${USER_LOGIN}/.config/kcminputrc"
 
 echo "root:$USER_PASSWORD" | chpasswd
 
@@ -112,6 +115,7 @@ chown -R "${USER_LOGIN}:${USER_LOGIN}" "/home/${USER_LOGIN}" 	# Needs to be done
 echo "${USER_LOGIN}:${USER_PASSWORD}" | chpasswd
 
 systemctl enable fstrim.timer
+systemctl enable NetworkManager
 
 ## Need a way to get it to run ufw config on first boot.
 
