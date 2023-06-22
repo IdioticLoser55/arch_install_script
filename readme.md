@@ -22,6 +22,7 @@ To be run on first boot. Handles setup and configuration.
 - Things seem a bit flakey if done from within the chroot environment.
 
 - Tidies up scripts after done.
+    - Also needs to get rid of the systemd service.
 - Prompts a reboot.
 
 
