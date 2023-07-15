@@ -42,38 +42,38 @@ INSTALL_PACKAGES="kde-applications python-pyqt5 fcron tesseract-data-eng"
 pacman -S --needed --noconfirm $INSTALL_PACKAGES
 
 
-systemctl enable ufw.service
-ufw enable
-ufw default deny
-ufw allow from 192.168.0.0/24
-ufw limit ssh
+#systemctl enable ufw.service
+#ufw enable
+#ufw default deny
+#ufw allow from 192.168.0.0/24
+#ufw limit ssh
 
 timedatectl set-local-rtc "$TIMEDATECTL_LOCAL_RTC"
 
-mkdir "/etc/sddm.conf.d"
-echo "[Autologin]"                              >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "Relogin=true"                             >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "Session=plasma"                           >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "User=idiot"                               >> "/etc/sddm.conf.d/kde_settings.conf"
-echo ""                                         >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "[General]"                                >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "Haltcommand=/usr/bin/systemctl poweroff"  >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "Numlock=on"                               >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "Rebootcommand=/usr/bin/systemctl reboot"  >> "/etc/sddm.conf.d/kde_settings.conf"
-echo ""                                         >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "[Theme]"                                  >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "Current=breeze"                           >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "Cursortheme=breeze_cursors"               >> "/etc/sddm.conf.d/kde_settings.conf"
-echo "Font=Noto Sans,11,-1,5,50,0,0,0,0,0"      >> "/etc/sddm.conf.d/kde_settings.conf"
+#mkdir "/etc/sddm.conf.d"
+#echo "[Autologin]"                              >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "Relogin=true"                             >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "Session=plasma"                           >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "User=idiot"                               >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo ""                                         >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "[General]"                                >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "Haltcommand=/usr/bin/systemctl poweroff"  >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "Numlock=on"                               >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "Rebootcommand=/usr/bin/systemctl reboot"  >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo ""                                         >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "[Theme]"                                  >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "Current=breeze"                           >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "Cursortheme=breeze_cursors"               >> "/etc/sddm.conf.d/kde_settings.conf"
+#echo "Font=Noto Sans,11,-1,5,50,0,0,0,0,0"      >> "/etc/sddm.conf.d/kde_settings.conf"
 
 systemctl enable sddm.service
 
-mkdir -p "/home/${USER_LOGIN}/.config"
-echo "[Layout]"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
-echo "LayoutList=gb"    >> "/home/${USER_LOGIN}/.config/kxkbrc"
-echo "Use=true"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
-
-echo "[Keyboard]"	>> "/home/${USER_LOGIN}/.config/kcminputrc"
-echo "NumLock=0"	>> "/home/${USER_LOGIN}/.config/kcminputrc"
+#mkdir -p "/home/${USER_LOGIN}/.config"
+#echo "[Layout]"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
+#echo "LayoutList=gb"    >> "/home/${USER_LOGIN}/.config/kxkbrc"
+#echo "Use=true"         >> "/home/${USER_LOGIN}/.config/kxkbrc"
+#
+#echo "[Keyboard]"	>> "/home/${USER_LOGIN}/.config/kcminputrc"
+#echo "NumLock=0"	>> "/home/${USER_LOGIN}/.config/kcminputrc"
 
 #sudo swapoff /dev/MyVolGroup2/swap && sudo fuser -km /mnt && sudo umount -R /mnt && sudo vgchange -a n MyVolGroup2 && sudo cryptsetup close cryptlvm2
