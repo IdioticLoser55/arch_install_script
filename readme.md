@@ -1,6 +1,9 @@
  IMPORTANT
 - Make sure you point it at the right drive.
 
+- Take a look at this at some point:
+   - https://gist.github.com/mjkstra/96ce7a5689d753e7a6bdd92cdc169bae
+
 
 # Install Script
 To be run on the iso and starts the process off.
